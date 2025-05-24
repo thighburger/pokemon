@@ -1,3 +1,4 @@
+import { usePokemonContext } from "../context/PokemonContext"; // 컨텍스트 사용
 import styled from "styled-components";
 import PokemonCard from "./PokemonCard";
 
@@ -15,7 +16,9 @@ const ListContainer = styled.div`
   padding: 16px;
 `;
 
-function PokemonList({ pokemons, onAdd }) {
+function PokemonList({ pokemons }) {
+  const { handleAdd } = usePokemonContext(); // 전역 상태 사용
+
   return (
     <ListContainer>
       {pokemons.map((pokemon) => (
@@ -27,7 +30,7 @@ function PokemonList({ pokemons, onAdd }) {
           image={pokemon.img_url}
           description={pokemon.description}
           isSelected={false} // 항상 추가 버튼만 표시되도록 설정
-          onAdd={onAdd}
+          onAdd={handleAdd}
         />
       ))}
     </ListContainer>

@@ -1,3 +1,4 @@
+import { usePokemonContext } from "../context/PokemonContext"; // 컨텍스트 사용
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
@@ -20,27 +21,42 @@ const Name = styled.h3`
   margin: 8px 0 0 0;
 `;
 
-function PokemonCard({ id, name, type, image, isSelected, onAdd, onRemove }) {
-  const handleAdd = (e) => {
-    e.preventDefault(); // 링크 이동 방지
-    console.log("추가 클릭, id:", id);
-    onAdd && onAdd({ id, name, image });
+const StyledButton = styled.button`
+  padding: 8px 16px;
+  font-size: 14px;
+  color: white;
+  background-color: #0075be;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #005bb5;
+  }
+`;
+
+function PokemonCard({ id, name, type, image, isSelected }) {
+  const { handleAdd, handleRemove } = usePokemonContext(); // 전역 상태 사용
+
+  const handleAddClick = (e) => {
+    e.preventDefault();
+    handleAdd({ id, name, image });
   };
 
-  const handleRemove = (e) => {
+  const handleRemoveClick = (e) => {
     e.preventDefault();
-    console.log("삭제 클릭, id:", id);
-    onRemove && onRemove(id);
+    handleRemove(id);
   };
 
   return (
     <Card to={`/detail?id=${id}`}>
       <Image src={image} alt={name} />
       <Name>{name}</Name>
-      {onRemove && isSelected ? ( // onRemove가 전달된 경우에만 삭제 버튼 표시
-        <button onClick={handleRemove}>삭제</button>
+      {isSelected ? (
+        <StyledButton onClick={handleRemoveClick}>삭제</StyledButton>
       ) : (
-        <button onClick={handleAdd}>추가</button>
+        <StyledButton onClick={handleAddClick}>추가</StyledButton>
       )}
     </Card>
   );

@@ -30,6 +30,21 @@ const Description = styled.p`
   color: #555;
 `;
 
+const StyledButton = styled.button`
+  padding: 10px 20px;
+  font-size: 16px;
+  color: white;
+  background-color: #0075be;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #005bb5;
+  }
+`;
+
 function Detail() {
   const { search } = useLocation();
   const navigate = useNavigate(); // navigate 함수 생성
@@ -48,7 +63,7 @@ function Detail() {
       <Title>{pokemon.korean_name}</Title>
       <Type>타입: {pokemon.types.join(", ")}</Type>
       <Description>{pokemon.description}</Description>
-      <button onClick={() => navigate("/dex")}>뒤로가기</button> {/* 뒤로가기 버튼 */}
+      <StyledButton onClick={() => navigate("/dex")}>뒤로가기</StyledButton>
     </Container>
   );
 }
