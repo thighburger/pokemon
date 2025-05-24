@@ -25,7 +25,7 @@ function PokemonList({ pokemons, onAdd }) {
           name={pokemon.korean_name}
           types={pokemon.types}
           image={pokemon.img_url}
-          description={pokemon.description}.
+          description={pokemon.description}
           isSelected={false} // 항상 추가 버튼만 표시되도록 설정
           onAdd={onAdd}
         />
