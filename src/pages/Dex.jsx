@@ -1,24 +1,35 @@
-// pages/Dex.jsx
+import { useState } from "react";
+import MOCK_DATA from "../mock";
+import PokemonList from "../components/PokemonList";
+import Dashboard from "../components/Dashboard";
+
 function Dex() {
-  useEffect(() => {
-    const fetchData = async () => {
-      const allPokemonData = [];
-      for (let i = 1; i <= 151; i++) { // 1세대 151마리 예시
-        const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${i}`);
-        const speciesResponse = await axios.get(`https://pokeapi.co/api/v2/pokemon-species/${i}`);
-        const koreanName = speciesResponse.data.names.find(name => name.language.name === 'ko');
-        allPokemonData.push({
-          ...response.data,
-          korean_name: koreanName ? koreanName.name : response.data.name,
-        });
-      }
-      setPokemonData(allPokemonData);
-    };
-    fetchData();
-  }, []);
+  const [selectedPokemons, setSelectedPokemons] = useState([]);
+
+  const handleAdd = (pokemon) => {
+    if (selectedPokemons.length >= 6) {
+      alert("더 이상 선택할 수 없습니다."); // 선택 제한 경고 메시지
+      return;
+    }
+    if (selectedPokemons.find((p) => p.id === pokemon.id)) {
+      alert("이미 선택된 포켓몬입니다."); // 이미 선택된 경우 경고 메시지
+      return;
+    }
+    setSelectedPokemons([...selectedPokemons, pokemon]);
+  };
+
+  const handleRemove = (id) => {
+    setSelectedPokemons(selectedPokemons.filter((p) => p.id != id));
+  };
+
   return (
     <div>
-
+      <Dashboard pokemons={selectedPokemons} onRemove={handleRemove} />
+      <PokemonList
+        pokemons={MOCK_DATA}
+        selectedPokemons={selectedPokemons}
+        onAdd={handleAdd}
+      />
     </div>
   );
 }
