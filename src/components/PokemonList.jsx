@@ -16,22 +16,13 @@ const ListContainer = styled.div`
   padding: 16px;
 `;
 
-function PokemonList({ pokemons }) {
-  const { handleAdd } = usePokemonContext(); // 전역 상태 사용
+function PokemonList() {
+  const { pokemons } = usePokemonContext(); // 전역 상태 사용
 
   return (
     <ListContainer>
       {pokemons.map((pokemon) => (
-        <PokemonCard
-          key={`pokemon-list-${pokemon.id}`}
-          id={pokemon.id}
-          name={pokemon.korean_name}
-          types={pokemon.types}
-          image={pokemon.img_url}
-          description={pokemon.description}
-          isSelected={false} // 항상 추가 버튼만 표시되도록 설정
-          onAdd={handleAdd}
-        />
+        <PokemonCard key={`pokemon-list-${pokemon.id}`} id={pokemon.id} forceAddButton={true} />
       ))}
     </ListContainer>
   );

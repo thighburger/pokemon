@@ -36,12 +36,16 @@ const StyledButton = styled.button`
   }
 `;
 
-function PokemonCard({ id, name, type, image, isSelected }) {
-  const { handleAdd, handleRemove } = usePokemonContext(); // 전역 상태 사용
+function PokemonCard({ id, forceAddButton = false }) {
+  const { pokemons, selectedPokemons, handleAdd, handleRemove } = usePokemonContext(); // 전역 상태 사용
+
+  // `id`를 기준으로 포켓몬 검색
+  const pokemon = pokemons.find((p) => p.id === id);
+  const isSelected = !forceAddButton && selectedPokemons.some((p) => p.id === id);
 
   const handleAddClick = (e) => {
     e.preventDefault();
-    handleAdd({ id, name, image });
+    if (pokemon) handleAdd(pokemon);
   };
 
   const handleRemoveClick = (e) => {
@@ -51,8 +55,8 @@ function PokemonCard({ id, name, type, image, isSelected }) {
 
   return (
     <Card to={`/detail?id=${id}`}>
-      <Image src={image} alt={name} />
-      <Name>{name}</Name>
+      <Image src={pokemon?.img_url} alt={pokemon?.korean_name} />
+      <Name>{pokemon?.korean_name}</Name>
       {isSelected ? (
         <StyledButton onClick={handleRemoveClick}>삭제</StyledButton>
       ) : (

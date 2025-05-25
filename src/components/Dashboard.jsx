@@ -18,23 +18,6 @@ const Container = styled.div`
   padding: 16px;
 `;
 
-// 타이틀 스타일
-const Title = styled.h1`
-  color: red;
-`;
-
-// 포켓몬볼 카드 스타일
-const BallCard = styled.div`
-  width: 100px;
-  height: 100px;
-  border-radius: 10%;
-  border: 2px dotted grey;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
-`;
-
 // 이미지 스타일
 const BallImage = styled.img`
   width: 70%;
@@ -64,7 +47,7 @@ function Dashboard() {
         const pokemon = selectedPokemons[i];
         return pokemon ? (
           <PokemonCard
-            key={pokemon.id} // key를 pokemon.id로 설정
+            key={pokemon.id}
             id={pokemon.id}
             name={pokemon.name}
             image={pokemon.image}
